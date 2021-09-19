@@ -1,1 +1,3 @@
-# rpi_realtime_pc
+# Raspberry Pi Real-time Packet Capture
+
+## FYP 17 Group: Fition
