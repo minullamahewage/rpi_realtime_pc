@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
         printf("Current:%d",count);
         /* Writing pcap file */
         /* Create the output file. */
-        char str1[20] = "/home/pi/output";
+        char str1[20] = "/home/pi/rpi_realtime_pc/output";
         char str2[20];
         sprintf(str2, "%d", count);
         strcat(str1,str2);
