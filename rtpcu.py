@@ -1,45 +1,32 @@
-# import time module, Observer, FileSystemEventHandler
+import watchdog.events
+import watchdog.observers
 import time
-from watchdog.observers import Observer
-from watchdog.events import FileSystemEventHandler
   
   
-class OnMyWatch:
-    # Set the directory on watch
-    watchDirectory = "/home/pi/rpi_realtime_pc/"
-  
+class Handler(watchdog.events.PatternMatchingEventHandler):
     def __init__(self):
-        self.observer = Observer()
+        # Set the patterns for PatternMatchingEventHandler
+        watchdog.events.PatternMatchingEventHandler.__init__(self, patterns=['*.pcap'],
+                                                             ignore_directories=True, case_sensitive=False)
   
-    def run(self):
-        event_handler = Handler()
-        self.observer.schedule(event_handler, self.watchDirectory, recursive = True)
-        self.observer.start()
-        try:
-            while True:
-                time.sleep(5)
-        except:
-            self.observer.stop()
-            print("Observer Stopped")
+    def on_created(self, event):
+        print("Watchdog received created event - % s." % event.src_path)
+        # Event is created, you can process it now
   
-        self.observer.join()
+    def on_modified(self, event):
+        print("Watchdog received modified event - % s." % event.src_path)
+        # Event is modified, you can process it now
   
   
-class Handler(FileSystemEventHandler):
-  
-    @staticmethod
-    def on_any_event(event):
-        if event.is_directory:
-            return None
-  
-        elif event.event_type == 'created':
-            # Event is created, you can process it now
-            print("Watchdog received created event - % s." % event.src_path)
-        elif event.event_type == 'modified':
-            # Event is modified, you can process it now
-            print("Watchdog received modified event - % s." % event.src_path)
-              
-  
-if __name__ == '__main__':
-    watch = OnMyWatch()
-    watch.run()
+if __name__ == "__main__":
+    src_path = "/home/pi/rpi_realtime_pc/"
+    event_handler = Handler()
+    observer = watchdog.observers.Observer()
+    observer.schedule(event_handler, path=src_path, recursive=True)
+    observer.start()
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
