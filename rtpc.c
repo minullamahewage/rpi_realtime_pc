@@ -66,10 +66,10 @@ int main(int argc, char *argv[])
         if (count == 10){
             count = 0;
         }
-        printf("Current:%d",count);
+        printf("\n Current:%d \n",count);
         /* Writing pcap file */
         /* Create the output file. */
-        char str1[20] = "/home/pi/rpi_realtime_pc/output";
+        char str1[50] = "/home/pi/rpi_realtime_pc/output";
         char str2[20];
         sprintf(str2, "%d", count);
         strcat(str1,str2);
@@ -79,6 +79,13 @@ int main(int argc, char *argv[])
         /* start the capture */
         pcap_loop(handle, 10, packet_handler, (unsigned char *)dumpfile);
         pcap_dump_close(dumpfile);
+        printf(str1);
+
+        FILE *fp;
+        fp = fopen("/home/pi/rpi_realtime_pc/notify.txt", "w+");
+        fprintf(fp, str1);
+        fclose(fp);
+
         count++;
     }
     
@@ -93,7 +100,7 @@ int main(int argc, char *argv[])
 void packet_handler(u_char *dumpfile, const struct pcap_pkthdr *header, const u_char *pkt_data)
 {
     /* save the packet on the dump file */
-    printf("\nWriting to file");
+    // printf("\nWriting to file");
     pcap_dump(dumpfile, header, pkt_data);
 }
 
