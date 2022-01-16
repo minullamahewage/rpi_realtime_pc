@@ -4,6 +4,8 @@ import time
 import os
 # import matplotlib.pyplot as plt
 import numpy as np
+import json
+import requests
 # import seaborn as sns
 
   
@@ -61,6 +63,8 @@ class PacketHandler:
     # def __init__(self):
     #     # TODO
 
+
+    # Make changes here. Function runs for each pcap file containing 500 packets. 
     def readFile(self, filename):
         print("reading filename: % s" % filename)
         filePath = "/home/pi/rpi_realtime_pc/" + filename
@@ -70,8 +74,19 @@ class PacketHandler:
         pilotsubcarriers = np.array([x+128 for x in [-103, -75, -39, -11, 11, 39, 75, 103]])
         csi=np.delete(csi,np.s_[nullsubcarriers],axis=1)
         csi=np.delete(csi,np.s_[pilotsubcarriers],axis=1)
+
         print("csi_matrix: ", csi)
         # method to read file
+    #request to send the csi matrix to server
+    def sendCSIMatrix(csi):
+        payload = {
+            'csi_matrix': json.dumps(csi) 
+        }
+        url = "api endpoint"
+        try:
+            requests.post(url, json=payload) 
+        except requests.exceptions.RequestException as e:
+            raise SystemExit(e)
 
 
 def _read_csi_next(pcapfile, csi_size):
