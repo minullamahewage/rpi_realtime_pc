@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
         strcat(str1,str3);
         dumpfile = pcap_dump_open(handle, str1);
         /* start the capture */
-        pcap_loop(handle, 10, packet_handler, (unsigned char *)dumpfile);
+        pcap_loop(handle, 50, packet_handler, (unsigned char *)dumpfile);
         pcap_dump_close(dumpfile);
         printf(str1);
 
