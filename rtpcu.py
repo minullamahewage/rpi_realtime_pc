@@ -74,18 +74,24 @@ class PacketHandler:
         pilotsubcarriers = np.array([x+128 for x in [-103, -75, -39, -11, 11, 39, 75, 103]])
         csi=np.delete(csi,np.s_[nullsubcarriers],axis=1)
         csi=np.delete(csi,np.s_[pilotsubcarriers],axis=1)
+        print("csi_matrix: ", csi[0][0])
+        
+        self.sendCSIMatrix(csi)
+        
 
-        print("csi_matrix: ", csi)
-        # method to read file
     #request to send the csi matrix to server
-    def sendCSIMatrix(csi):
+    def sendCSIMatrix(self,csi):
+        print("sending csi matrix")
         payload = {
-            'csi_matrix': json.dumps(csi) 
+            "csi_matrix": csi.tolist()
         }
-        url = "api endpoint"
+        # print(payload)
+        url = "http://192.168.8.105:8000/test"
         try:
+            print("trying to send packet")
             requests.post(url, json=payload) 
         except requests.exceptions.RequestException as e:
+            print (e)
             raise SystemExit(e)
 
 
