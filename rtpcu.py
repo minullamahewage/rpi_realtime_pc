@@ -86,7 +86,7 @@ class PacketHandler:
             "csi_matrix": csi.tolist()
         }
         # print(payload)
-        url = "http://192.168.8.105:8000/test"
+        url = "http://192.168.8.105:8000/predict"
         try:
             print("trying to send packet")
             requests.post(url, json=payload) 

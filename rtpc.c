@@ -76,8 +76,10 @@ int main(int argc, char *argv[])
         char str3[20] = ".pcap";
         strcat(str1,str3);
         dumpfile = pcap_dump_open(handle, str1);
+        
         /* start the capture */
-        pcap_loop(handle, 50, packet_handler, (unsigned char *)dumpfile);
+        // Change number of packets in a single file
+        pcap_loop(handle, 500, packet_handler, (unsigned char *)dumpfile);
         pcap_dump_close(dumpfile);
         printf(str1);
 
