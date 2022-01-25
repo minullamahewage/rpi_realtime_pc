@@ -79,7 +79,7 @@ int main(int argc, char *argv[])
         
         /* start the capture */
         // Change number of packets in a single file
-        pcap_loop(handle, 500, packet_handler, (unsigned char *)dumpfile);
+        pcap_loop(handle, 250, packet_handler, (unsigned char *)dumpfile);
         pcap_dump_close(dumpfile);
         printf(str1);
 

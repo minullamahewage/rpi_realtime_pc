@@ -8,6 +8,13 @@ import json
 import requests
 # import seaborn as sns
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
+SERVER_URL = os.getenv('SERVER_URL')
+
   
   
 class Handler(watchdog.events.PatternMatchingEventHandler):
@@ -86,7 +93,7 @@ class PacketHandler:
             "csi_matrix": csi.tolist()
         }
         # print(payload)
-        url = "http://192.168.8.105:8000/predict"
+        url = SERVER_URL + "/predict"
         try:
             print("trying to send packet")
             requests.post(url, json=payload) 
