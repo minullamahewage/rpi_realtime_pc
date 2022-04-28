@@ -13,13 +13,13 @@ Server needs to be running: https://github.com/hiranlowe/FitionPredictor<img wid
 
 1. Login in as super user: `sudo su`
 2. Setup Nexmon CSI:
-``export PATH=$PATH:/home/pi/nexmon/patches/bcm43455c0/7_45_189/nexmon_csi/utils/makecsiparams
+```export PATH=$PATH:/home/pi/nexmon/patches/bcm43455c0/7_45_189/nexmon_csi/utils/makecsiparams
 makecsiparams -c 36/80 -C 1 -N 1
 pkill wpa_supplicant
 ifconfig wlan0 up
 nexutil -Iwlan0 -s500 -b -l34 -vKuABEQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==
 iw phy `iw dev wlan0 info | gawk '/wiphy/ {printf "phy" $2}'` interface add mon0 type monitor
-ifconfig mon0 up``
+ifconfig mon0 up```
 3. env file with `SERVER_URL`: `SERVER_URL = "SeverIP:8000";`
 4. Run python program: `python3 rtpcu.py`
 5. Install libpcap library: `sudo apt-get install libpcap-dev`
